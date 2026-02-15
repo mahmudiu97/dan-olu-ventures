@@ -24,30 +24,136 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-        <h1 className="text-2xl font-bold mb-4 text-center">Login</h1>
-        {error && <div className="text-red-600 mb-3">{error}</div>}
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 via-purple-50 to-purple-100 overflow-hidden relative">
+      {/* Decorative circle - top left */}
+      <div className="absolute top-0 left-0 w-40 h-40 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full -translate-x-20 -translate-y-20"></div>
+      
+      {/* Decorative circle - bottom right */}
+      <div className="absolute bottom-0 right-0 w-32 h-32 bg-white rounded-full translate-x-16 translate-y-16 opacity-40"></div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm">Email</label>
-            <input value={email} onChange={(e) => setEmail(e.target.value)} className="w-full border px-3 py-2 rounded" type="email" required />
+      <div className="flex w-full max-w-6xl mx-auto shadow-2xl rounded-3xl overflow-hidden">
+        {/* Left side - Form */}
+        <div className="w-1/2 bg-white flex flex-col justify-center px-16 py-12 relative z-10">
+          <div className="mb-4">
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">LOGIN</h1>
+            <p className="text-gray-600 text-sm">How to i get started lorem ipsum dolor at?</p>
           </div>
 
-          <div>
-            <label className="block text-sm">Password</label>
-            <input value={password} onChange={(e) => setPassword(e.target.value)} className="w-full border px-3 py-2 rounded" type="password" required />
+          {error && (
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4 text-sm">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Email Input */}
+            <div>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </div>
+                <input
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  type="email"
+                  placeholder="Username"
+                  required
+                  className="w-full bg-gray-100 border-0 pl-12 pr-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white transition"
+                />
+              </div>
+            </div>
+
+            {/* Password Input */}
+            <div>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                </div>
+                <input
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  type="password"
+                  placeholder="Password"
+                  required
+                  className="w-full bg-gray-100 border-0 pl-12 pr-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white transition"
+                />
+              </div>
+            </div>
+
+            {/* Login Button */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold py-3 rounded-lg hover:from-indigo-600 hover:to-purple-700 transition disabled:opacity-50 disabled:cursor-not-allowed mt-6"
+            >
+              {loading ? 'Logging in...' : 'Login Now'}
+            </button>
+          </form>
+
+          {/* Social Login */}
+          <div className="mt-8">
+            <p className="text-center text-gray-700 font-medium mb-4">
+              <span className="text-gray-600">Login</span> with Others
+            </p>
+            <div className="grid grid-cols-2 gap-3">
+              {/* Google Login */}
+              <button
+                type="button"
+                onClick={() => console.log('Google login not yet implemented')}
+                className="flex items-center justify-center border border-gray-300 py-3 rounded-lg hover:bg-gray-50 transition"
+              >
+                <svg className="w-5 h-5" viewBox="0 0 24 24">
+                  <text x="2" y="18" className="fill-red-500 font-bold text-lg">G</text>
+                </svg>
+                <span className="ml-2 text-sm text-gray-700"><span className="font-medium">Login with</span> google</span>
+              </button>
+
+              {/* Facebook Login */}
+              <button
+                type="button"
+                onClick={() => console.log('Facebook login not yet implemented')}
+                className="flex items-center justify-center border border-gray-300 py-3 rounded-lg hover:bg-gray-50 transition"
+              >
+                <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+                <span className="ml-2 text-sm text-gray-700"><span className="font-medium">Login with</span> facebook</span>
+              </button>
+            </div>
           </div>
 
-          <button className="w-full bg-blue-600 text-white py-2 rounded" disabled={loading} type="submit">
-            {loading ? 'Logging in...' : 'Login'}
-          </button>
-        </form>
+          {/* Register Link */}
+          <p className="text-center text-sm text-gray-600 mt-6">
+            Don't have an account? <Link to="/register" className="font-semibold text-purple-600 hover:text-purple-700">Register</Link>
+          </p>
+        </div>
 
-        <p className="text-sm text-center mt-4">
-          Don't have an account? <Link to="/register" className="text-blue-600">Register</Link>
-        </p>
+        {/* Right side - Illustration */}
+        <div className="w-1/2 bg-gradient-to-br from-indigo-500 via-purple-500 to-purple-600 flex items-center justify-center p-8 relative overflow-hidden">
+          {/* Decorative shapes */}
+          <div className="absolute top-10 right-10 w-20 h-20 bg-white/10 rounded-full blur-lg"></div>
+          <div className="absolute bottom-20 left-10 w-32 h-32 bg-white/10 rounded-full blur-lg"></div>
+
+          <div className="relative z-10 text-center">
+            {/* Illustration placeholder - woman with tablet */}
+            <div className="bg-white/10 backdrop-blur rounded-3xl p-8 border border-white/20 w-80 h-80 flex items-center justify-center">
+              <div className="text-white text-center">
+                <div className="text-6xl mb-4">👩‍💼</div>
+                <p className="text-lg font-semibold">Welcome to</p>
+                <p className="text-lg font-semibold">Dan Olu Ventures</p>
+              </div>
+            </div>
+
+            {/* Floating element */}
+            <div className="absolute bottom-12 right-8 bg-yellow-300 rounded-full w-16 h-16 flex items-center justify-center shadow-lg">
+              <span className="text-3xl">✨</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )
