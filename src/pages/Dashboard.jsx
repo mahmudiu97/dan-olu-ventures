@@ -5,6 +5,12 @@ export default function Dashboard() {
 
   return (
     <div className="p-8">
+      <div className="mb-4">
+        <nav className="flex gap-3">
+          <a href="/" className="text-sm text-gray-700 font-medium">Home</a>
+          <a href="/inventory" className="text-sm text-gray-700 font-medium">Inventory</a>
+        </nav>
+      </div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold">Dashboard</h1>
         {user && (
