@@ -3,6 +3,7 @@ import Login from '../pages/Auth/Login'
 import Register from '../pages/Auth/Register'
 import Dashboard from '../pages/Dashboard'
 import InventoryList from '../pages/Inventory/InventoryList'
+import SalesList from '../pages/Sales/SalesList'
 import ProtectedRoute from '../components/layouts/ProtectedRoute'
 
 export default function AppRoutes() {
@@ -23,6 +24,14 @@ export default function AppRoutes() {
         element={
           <ProtectedRoute>
             <InventoryList />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/sales"
+        element={
+          <ProtectedRoute>
+            <SalesList />
           </ProtectedRoute>
         }
       />
