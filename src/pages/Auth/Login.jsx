@@ -8,7 +8,7 @@ export default function Login() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
-  const { login } = useAuth()
+  const { login, loginWithGoogle, loginWithFacebook } = useAuth()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -103,7 +103,18 @@ export default function Login() {
               {/* Google Login */}
               <button
                 type="button"
-                onClick={() => console.log('Google login not yet implemented')}
+                onClick={async () => {
+                  setError('')
+                  setLoading(true)
+                  try {
+                    await loginWithGoogle()
+                    navigate('/')
+                  } catch (err) {
+                    console.error('Google login error', err)
+                    setError(err.message || 'Google sign-in failed')
+                  }
+                  setLoading(false)
+                }}
                 className="flex items-center justify-center border border-gray-300 py-3 rounded-lg hover:bg-gray-50 transition"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -115,7 +126,18 @@ export default function Login() {
               {/* Facebook Login */}
               <button
                 type="button"
-                onClick={() => console.log('Facebook login not yet implemented')}
+                onClick={async () => {
+                  setError('')
+                  setLoading(true)
+                  try {
+                    await loginWithFacebook()
+                    navigate('/')
+                  } catch (err) {
+                    console.error('Facebook login error', err)
+                    setError(err.message || 'Facebook sign-in failed')
+                  }
+                  setLoading(false)
+                }}
                 className="flex items-center justify-center border border-gray-300 py-3 rounded-lg hover:bg-gray-50 transition"
               >
                 <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
