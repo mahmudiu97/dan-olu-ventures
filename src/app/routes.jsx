@@ -4,6 +4,7 @@ import Register from '../pages/Auth/Register'
 import Dashboard from '../pages/Dashboard'
 import InventoryList from '../pages/Inventory/InventoryList'
 import SalesList from '../pages/Sales/SalesList'
+import CreditsList from '../pages/Credits/CreditsList'
 import ProtectedRoute from '../components/layouts/ProtectedRoute'
 
 export default function AppRoutes() {
@@ -32,6 +33,14 @@ export default function AppRoutes() {
         element={
           <ProtectedRoute>
             <SalesList />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/credits"
+        element={
+          <ProtectedRoute>
+            <CreditsList />
           </ProtectedRoute>
         }
       />

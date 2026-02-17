@@ -10,6 +10,7 @@ export default function Dashboard() {
           <a href="/" className="text-sm text-gray-700 font-medium">Home</a>
           <a href="/inventory" className="text-sm text-gray-700 font-medium">Inventory</a>
           <a href="/sales" className="text-sm text-gray-700 font-medium">Sales</a>
+          <a href="/credits" className="text-sm text-gray-700 font-medium">Credits</a>
         </nav>
       </div>
       <div className="flex items-center justify-between mb-6">
