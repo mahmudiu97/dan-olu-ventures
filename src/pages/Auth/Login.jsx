@@ -9,6 +9,10 @@ export default function Login() {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const { login, loginWithGoogle, loginWithFacebook } = useAuth()
+  const { resetPassword } = useAuth()
+  const [showReset, setShowReset] = useState(false)
+  const [resetEmail, setResetEmail] = useState('')
+  const [resetMessage, setResetMessage] = useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -93,6 +97,38 @@ export default function Login() {
               {loading ? 'Logging in...' : 'Login Now'}
             </button>
           </form>
+
+          {/* Forgot password */}
+          <div className="mt-4 text-center">
+            {!showReset ? (
+              <button onClick={() => { setShowReset(true); setResetMessage(''); setResetEmail(email) }} className="text-sm text-purple-600 hover:underline">Forgot password?</button>
+            ) : (
+              <div className="mt-3">
+                <div className="mb-2">
+                  <input value={resetEmail} onChange={(e) => setResetEmail(e.target.value)} type="email" placeholder="Enter your email" className="w-full border px-3 py-2 rounded" />
+                </div>
+                <div className="flex justify-center gap-2">
+                  <button
+                    className="bg-indigo-600 text-white px-4 py-2 rounded"
+                    onClick={async () => {
+                      setResetMessage('')
+                      try {
+                        await resetPassword(resetEmail)
+                        setResetMessage('Password reset email sent. Check your inbox.')
+                      } catch (err) {
+                        console.error('reset error', err)
+                        setResetMessage(err.message || 'Failed to send reset email')
+                      }
+                    }}
+                  >
+                    Send reset link
+                  </button>
+                  <button onClick={() => setShowReset(false)} className="bg-white border px-4 py-2 rounded">Cancel</button>
+                </div>
+                {resetMessage && <div className="mt-2 text-sm text-center text-gray-700">{resetMessage}</div>}
+              </div>
+            )}
+          </div>
 
           {/* Social Login */}
           <div className="mt-8">
