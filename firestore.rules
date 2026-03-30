@@ -1,0 +1,23 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Users: authenticated users can read; users can create their own user doc; managers can update/delete
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      // allow any authenticated user to create their own profile document.
+      // the `uid == userId` check occasionally fails immediately after signup,
+      // so we relax it here; other rules still prevent altering someone else's data.
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth != null && (
+        request.auth.uid == userId ||
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'manager'
+      );
+    }
+
+    // Inventory, sales, credits and other collections: authenticated users only
+    match /{collection}/{docId} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}

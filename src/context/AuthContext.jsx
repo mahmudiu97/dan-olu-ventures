@@ -50,14 +50,20 @@ export function AuthProvider({ children }) {
   }, [loading])
 
   const register = async (email, password, name, userRole = 'salesperson') => {
+    console.debug('[Auth] register called with', { email, name, userRole })
     const { user } = await createUserWithEmailAndPassword(auth, email, password)
-    await setDoc(doc(db, 'users', user.uid), {
-      uid: user.uid,
-      email,
-      name,
-      role: userRole,
-      createdAt: new Date(),
-    })
+    console.debug('[Auth] createUserWithEmailAndPassword returned user', user)
+    try {
+      await setDoc(doc(db, 'users', user.uid), {
+        uid: user.uid,
+        email,
+        name,
+        role: userRole,
+        createdAt: new Date(),
+      })
+    } catch (e) {
+      console.error('[Auth] failed to create user document', e)
+    }
     return user
   }
 

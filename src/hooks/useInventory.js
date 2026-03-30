@@ -1,13 +1,21 @@
 import { useState, useEffect } from 'react'
 import { db } from '../services/firebase'
-import { collection, onSnapshot, query, orderBy } from 'firebase/firestore'
+import { collection, onSnapshot, query, orderBy, where } from 'firebase/firestore'
 import * as service from '../services/inventoryService'
+import { useAuth } from './useAuth'
 
 export default function useInventory() {
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
+  const { user } = useAuth()
 
   useEffect(() => {
+    if (!user) {
+      setItems([])
+      setLoading(false)
+      return
+    }
+
     const q = query(collection(db, 'inventory'), orderBy('createdAt', 'desc'))
     const unsub = onSnapshot(
       q,
@@ -22,7 +30,7 @@ export default function useInventory() {
     )
 
     return () => unsub()
-  }, [])
+  }, [user])
 
   const add = async (item) => await service.addInventory(item)
   const update = async (id, data) => await service.updateInventory(id, data)

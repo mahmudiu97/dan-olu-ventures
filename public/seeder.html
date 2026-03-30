@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Seeder - OLU Ventures</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        .btn:hover {
+            background: #4338ca;
+        }
+        .btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+        .success {
+            background: #10b981;
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+        .error {
+            background: #ef4444;
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+        .info {
+            background: #3b82f6;
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+        .preview {
+            background: #f9fafb;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+            border-left: 4px solid #4f46e5;
+        }
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 4px;
+            border: 1px solid #e5e7eb;
+        }
+        .product-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .product-image {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .price {
+            font-weight: bold;
+            color: #059669;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌱 Data Seeder for OLU Ventures</h1>
+        
+        <div class="info">
+            <strong>ℹ️ Instructions:</strong><br>
+            1. Make sure you're logged into the application<br>
+            2. Click the button below to seed sample data<br>
+            3. This will add categories and products for shoes and phone accessories
+        </div>
+
+        <button id="seedBtn" class="btn" onclick="seedData()">🚀 Seed Sample Data</button>
+        <button id="clearBtn" class="btn" onclick="clearData()" style="background: #ef4444;">🗑️ Clear Console</button>
+
+        <div id="output"></div>
+
+        <div class="preview">
+            <h3>📦 Sample Data Preview:</h3>
+            <p><strong>Categories:</strong> Footwear, Electronics</p>
+            <p><strong>Products:</strong> 14 items total (6 shoes + 8 phone accessories)</p>
+            
+            <h4>👟 Shoes:</h4>
+            <ul>
+                <li>Nike Air Max 270 - ₦45,000</li>
+                <li>Adidas Ultraboost 22 - ₦52,000</li>
+                <li>Puma RS-X³ - ₦35,000</li>
+                <li>Converse Chuck Taylor - ₦22,000</li>
+                <li>Vans Old Skool - ₦28,000</li>
+                <li>New Balance 574 - ₦32,000</li>
+            </ul>
+
+            <h4>📱 Phone Accessories:</h4>
+            <ul>
+                <li>Anker PowerCore 10000 - ₦8,500</li>
+                <li>iPhone 15 Pro Charger - ₦4,500</li>
+                <li>Samsung 25W Fast Charger - ₦3,800</li>
+                <li>Type-C Cable 2m - ₦1,500</li>
+                <li>Lightning Cable 1m - ₦2,000</li>
+                <li>Wireless Charging Pad - ₦5,500</li>
+                <li>Car Phone Holder - ₦3,200</li>
+                <li>Screen Protector - ₦1,200</li>
+            </ul>
+        </div>
+
+        <div class="info">
+            <strong>🔧 Features:</strong><br>
+            • Realistic Nigerian Naira pricing<br>
+            • Cost price and selling price ranges<br>
+            • Stock quantities for each item<br>
+            • Custom SVG images for products<br>
+            • Proper categorization<br>
+            • Product descriptions and notes
+        </div>
+    </div>
+
+    <script>
+        const output = document.getElementById('output');
+        const seedBtn = document.getElementById('seedBtn');
+        const clearBtn = document.getElementById('clearBtn');
+
+        function log(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = type;
+            div.innerHTML = message;
+            output.appendChild(div);
+            output.scrollTop = output.scrollHeight;
+        }
+
+        async function seedData() {
+            seedBtn.disabled = true;
+            seedBtn.textContent = '⏳ Seeding...';
+            
+            try {
+                log('🚀 Starting data seeding...', 'info');
+                
+                // Import and run the seeder
+                const { seedData } = await import('./src/utils/seedData.js');
+                const result = await seedData();
+                
+                log(`✅ Success! Added ${result.categories} categories and ${result.products} products`, 'success');
+                log('🎉 Data seeding completed! You can now use the application.', 'success');
+                log('📱 Check your POS and Inventory pages to see the new products.', 'info');
+                
+            } catch (error) {
+                log(`❌ Error: ${error.message}`, 'error');
+                log('💡 Make sure you are logged into the application first.', 'info');
+            } finally {
+                seedBtn.disabled = false;
+                seedBtn.textContent = '🚀 Seed Sample Data';
+            }
+        }
+
+        function clearData() {
+            output.innerHTML = '';
+        }
+
+        // Log page load
+        log('🌱 Data Seeder loaded. Ready to seed sample data!', 'info');
+    </script>
+</body>
+</html>

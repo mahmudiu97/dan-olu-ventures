@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Data Seeder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .category-card {
+            padding: 25px;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1em;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .category-card:hover::before {
+            transform: translateX(0);
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .product-card {
+            border: 1px solid #e1e5e9;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: white;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 180px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-image svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .product-name {
+            font-weight: 600;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            color: #333;
+            line-height: 1.3;
+        }
+        
+        .product-price {
+            color: #4caf50;
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .product-category {
+            color: #666;
+            font-size: 0.9em;
+            background: #f0f2f5;
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        
+        .product-stock {
+            margin-top: 10px;
+            font-size: 0.85em;
+            color: #666;
+        }
+        
+        .stock-good {
+            color: #4caf50;
+        }
+        
+        .stock-low {
+            color: #ff9800;
+        }
+        
+        .actions {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .btn {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #f0f2f5;
+            color: #333;
+            border: 2px solid #e1e5e9;
+        }
+        
+        .btn-secondary:hover {
+            background: #e1e5e9;
+        }
+        
+        .status {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+            font-weight: 500;
+        }
+        
+        .status.success {
+            background: #e8f5e8;
+            color: #2e7d32;
+            border: 1px solid #4caf50;
+        }
+        
+        .status.error {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #f44336;
+        }
+        
+        .info-box {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .warning-box {
+            background: #fff3e0;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #ff9800;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #e1e5e9;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .console-output {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .categories-grid,
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌟 Premium Data Seeder</h1>
+            <p>Professional inventory with high-quality products and realistic pricing</p>
+        </div>
+        
+        <div class="content">
+            <div class="info-box">
+                <strong>ℹ️ Premium Features:</strong><br>
+                • 6 Professional categories with distinct color schemes<br>
+                • 15+ High-quality products with realistic images<br>
+                • Nigerian market-appropriate pricing<br>
+                • Professional product descriptions and specifications
+            </div>
+
+            <div class="warning-box">
+                <strong>⚠️ Important:</strong><br>
+                • Ensure you're logged into the application<br>
+                • Premium products will enhance your inventory<br>
+                • Check browser console for detailed progress<br>
+                • Images are professionally designed SVG graphics
+            </div>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Premium Categories</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label">Quality Products</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">₦85K</div>
+                    <div class="stat-label">Avg Product Value</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">200+</div>
+                    <div class="stat-label">Total Stock Items</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>📁 Premium Categories</h2>
+                <div class="categories-grid">
+                    <div class="category-card" style="background: #2563EB;">
+                        👟 Footwear
+                    </div>
+                    <div class="category-card" style="background: #059669;">
+                        📱 Phone Accessories
+                    </div>
+                    <div class="category-card" style="background: #7C3AED;">
+                        🎧 Electronics
+                    </div>
+                    <div class="category-card" style="background: #DB2777;">
+                        👕 Fashion
+                    </div>
+                    <div class="category-card" style="background: #EA580C;">
+                        ⚽ Sports & Fitness
+                    </div>
+                    <div class="category-card" style="background: #0891B2;">
+                        🎒 Bags & Accessories
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>📦 Premium Products Showcase</h2>
+                <div class="products-grid">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <svg viewBox="0 0 300 300">
+                                <rect width="300" height="300" fill="#FF6B6B"/>
+                                <path d="M60 80H240V220H60V80Z" fill="#000000"/>
+                                <path d="M8 140H292V160H8V140Z" fill="#FF0000"/>
+                                <path d="M80 120H220V160H80V120Z" fill="#000000"/>
+                                <circle cx="150" cy="140" r="20" fill="#FFFFFF"/>
+                                <text x="150" y="280" font-family="Arial Bold" font-size="16" fill="#000000" text-anchor="middle">Nike Air Jordan 1</text>
+                            </svg>
+                        </div>
+                        <div class="product-name">Nike Air Jordan 1 Retro High</div>
+                        <div class="product-price">₦85,000</div>
+                        <div class="product-category">Footwear</div>
+                        <div class="product-stock stock-good">8 in stock</div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-image">
+                            <svg viewBox="0 0 300 300">
+                                <rect width="300" height="300" fill="#F5F5F7"/>
+                                <circle cx="150" cy="150" r="60" fill="#FFFFFF"/>
+                                <circle cx="150" cy="150" r="45" fill="none" stroke="#000000" stroke-width="3"/>
+                                <circle cx="150" cy="150" r="30" fill="none" stroke="#000000" stroke-width="2"/>
+                                <path d="M150 120V180L120 150H180L150 180L120 150Z" stroke="#FFFFFF" stroke-width="2"/>
+                                <text x="150" y="280" font-family="Arial Bold" font-size="14" fill="#000000" text-anchor="middle">MagSafe Charger</text>
+                            </svg>
+                        </div>
+                        <div class="product-name">Apple MagSafe Charger</div>
+                        <div class="product-price">₦25,000</div>
+                        <div class="product-category">Phone Accessories</div>
+                        <div class="product-stock stock-good">20 in stock</div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-image">
+                            <svg viewBox="0 0 300 300">
+                                <rect width="300" height="300" fill="#FFFFFF"/>
+                                <ellipse cx="80" cy="150" rx="30" ry="40" fill="#000000"/>
+                                <ellipse cx="220" cy="150" rx="30" ry="40" fill="#000000"/>
+                                <path d="M80 150H220" stroke="#000000" stroke-width="8"/>
+                                <circle cx="80" cy="150" r="12" fill="#333333"/>
+                                <circle cx="220" cy="150" r="12" fill="#333333"/>
+                                <text x="150" y="280" font-family="Arial Bold" font-size="12" fill="#000000" text-anchor="middle">Sony WH-1000XM4</text>
+                            </svg>
+                        </div>
+                        <div class="product-name">Sony WH-1000XM4 Headphones</div>
+                        <div class="product-price">₦65,000</div>
+                        <div class="product-category">Electronics</div>
+                        <div class="product-stock stock-low">10 in stock</div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-image">
+                            <svg viewBox="0 0 300 300">
+                                <rect width="300" height="300" fill="#FFFFFF"/>
+                                <circle cx="150" cy="150" r="50" fill="#FFFFFF"/>
+                                <circle cx="150" cy="150" r="45" fill="none" stroke="#FFFFFF" stroke-width="3"/>
+                                <circle cx="150" cy="150" r="35" fill="#000000"/>
+                                <circle cx="150" cy="80" r="4" fill="#FFFFFF"/>
+                                <circle cx="150" cy="220" r="4" fill="#FFFFFF"/>
+                                <path d="M150 120V180L120 150H180L150 180L120 150Z" stroke="#FFFFFF" stroke-width="2"/>
+                                <text x="150" y="280" font-family="Arial Bold" font-size="12" fill="#000000" text-anchor="middle">Michael Kors Watch</text>
+                            </svg>
+                        </div>
+                        <div class="product-name">Michael Kors Watch</div>
+                        <div class="product-price">₦45,000</div>
+                        <div class="product-category">Fashion</div>
+                        <div class="product-stock stock-good">12 in stock</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-primary" onclick="runQualitySeeder()">
+                    🚀 Seed Premium Data
+                </button>
+                <button class="btn btn-secondary" onclick="showConsole()">
+                    📊 Show Console Output
+                </button>
+            </div>
+
+            <div id="status" class="status"></div>
+            <div id="console" class="console-output"></div>
+
+            <div class="section">
+                <h2>📋 Instructions</h2>
+                <div class="info-box">
+                    <ol style="line-height: 1.8; padding-left: 20px;">
+                        <li>Ensure you're logged into your application</li>
+                        <li>Click "Seed Premium Data" button above</li>
+                        <li>Watch the console output for progress</li>
+                        <li>Visit your inventory page to see the new products</li>
+                        <li>Test the POS system with the new premium items</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🔧 Console Commands</h2>
+                <div style="background: #f5f5f5; padding: 20px; border-radius: 10px; font-family: monospace;">
+                    <strong>Quick Start:</strong><br>
+                    <code style="color: #667eea;">runQualitySeeder()</code><br><br>
+                    
+                    <strong>Manual Control:</strong><br>
+                    <code style="color: #667eea;">seedQualityData().then(console.log)</code><br><br>
+                    
+                    <strong>Check Results:</strong><br>
+                    <code style="color: #667eea;">console.log('Premium data ready!')</code>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import the quality seeder functions
+        import { seedQualityData, runQualitySeeder } from '/src/utils/qualitySeeder.js';
+        
+        // Make functions available globally
+        window.seedQualityData = seedQualityData;
+        window.runQualitySeeder = runQualitySeeder;
+
+        // Console output capture
+        const originalLog = console.log;
+        const originalError = console.error;
+        const consoleDiv = document.getElementById('console');
+        
+        function addToConsole(message, type = 'log') {
+            if (consoleDiv.style.display === 'block') {
+                const timestamp = new Date().toLocaleTimeString();
+                const color = type === 'error' ? '#ff6b6b' : '#4caf50';
+                consoleDiv.innerHTML += `<div style="color: ${color};">[${timestamp}] ${message}</div>`;
+                consoleDiv.scrollTop = consoleDiv.scrollHeight;
+            }
+        }
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addToConsole(args.join(' '), 'log');
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addToConsole(args.join(' '), 'error');
+        };
+
+        // Button functions
+        window.runQualitySeeder = async function() {
+            const statusDiv = document.getElementById('status');
+            statusDiv.style.display = 'block';
+            statusDiv.className = 'status';
+            statusDiv.innerHTML = '🔄 Starting premium seeder... Check console for details.';
+            
+            try {
+                const result = await runQualitySeeder();
+                statusDiv.className = 'status success';
+                statusDiv.innerHTML = `✅ Success! Added ${result.categories} premium categories and ${result.products} quality products. Your inventory now looks professional!`;
+            } catch (error) {
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = `❌ Error: ${error.message}. Check console for details and ensure you're logged in.`;
+            }
+        };
+
+        window.showConsole = function() {
+            const consoleDiv = document.getElementById('console');
+            consoleDiv.style.display = consoleDiv.style.display === 'block' ? 'none' : 'block';
+            if (consoleDiv.style.display === 'block') {
+                consoleDiv.innerHTML = '<div style="color: #667eea;">📊 Console Output - Ready for logging...</div>';
+            }
+        };
+    </script>
+</body>
+</html>

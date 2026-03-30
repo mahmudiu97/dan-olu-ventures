@@ -29,7 +29,7 @@ export default function CreditsForm({ initial = {}, onSave, onCancel }) {
 
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="block text-sm text-gray-700">Amount</label>
+          <label className="block text-sm text-gray-700">Amount (₦)</label>
           <input value={amount} onChange={(e) => setAmount(e.target.value)} type="number" step="0.01" className="w-full border px-3 py-2 rounded" required />
         </div>
         <div>

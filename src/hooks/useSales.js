@@ -1,17 +1,31 @@
 import { useState, useEffect } from 'react'
 import { db } from '../services/firebase'
-import { collection, onSnapshot, query, orderBy } from 'firebase/firestore'
+import { collection, onSnapshot, query, orderBy, where } from 'firebase/firestore'
 import * as service from '../services/salesService'
+import { useAuth } from './useAuth'
 
 export default function useSales() {
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
+  const { user } = useAuth()
 
   useEffect(() => {
-    const q = query(collection(db, 'sales'), orderBy('createdAt', 'desc'))
+    if (!user) {
+      setItems([])
+      setLoading(false)
+      return
+    }
+
+    // Filter sales by current user's ID
+    const q = query(
+      collection(db, 'sales'), 
+      where('owner', '==', user.uid),
+      orderBy('createdAt', 'desc')
+    )
     const unsub = onSnapshot(
       q,
       (snap) => {
+        console.log('Sales snapshot received:', snap.docs.length, 'items')
         setItems(snap.docs.map((d) => ({ id: d.id, ...d.data() })))
         setLoading(false)
       },
@@ -22,7 +36,7 @@ export default function useSales() {
     )
 
     return () => unsub()
-  }, [])
+  }, [user])
 
   const add = async (item) => await service.addSale(item)
   const update = async (id, data) => await service.updateSale(id, data)
